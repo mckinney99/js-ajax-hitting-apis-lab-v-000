@@ -14,31 +14,31 @@ function displayRepositories(event, data) {
 }
 
 function getCommits(el) {
-  const name = el.dataset.repository
-  const uri = "https://api.github.com" + "/repos/" + el.dataset.username + "/" + name + "/commits"
+  const name = el.dataset.username
+  const repoName = el.dataset.repository
   const req = new XMLHttpRequest()
   req.addEventListener("load", displayCommits)
-  req.open("GET", uri)
+  req.open("GET", "https://api.github.com/repos/" + name + "/" + repoName + "/commits")
   req.send()
 }
 
-function displayCommits() {
+function displayCommits(event, data) {
   const commits = JSON.parse(this.responseText)
-  const commitsList = `<ul>${commits.map(commit => '<li><h3>' + commit.commit.author.name + ' (' + commit.author.login + ')</h3>' + commit.commit.message + '</li>').join('')}</ul>`
-  document.getElementById("details").innerHTML = commitsList
+  const commitList = `<ul>${commits.map(c => '<li>' + c.author.login + c.commit.author.name + c.commit.message + '- <a href="#" data-repo="' + c.author.login + '" onclick="getBranches(this)">Get Branches</a></li>').join('')}</ul>`
+  document.getElementById("details").innerHTML = commitList
 }
 
 function getBranches(el) {
-  const name = el.dataset.repository
-  const uri = "https://api.github.com" + "/repos/" + el.dataset.username + "/" + name + "/branches"
+  const name = el.dataset.username
+  const repoName = el.dataset.repository
   const req = new XMLHttpRequest()
   req.addEventListener("load", displayBranches)
-  req.open("GET", uri)
+  req.open("GET", "https://api.github.com/repos/" + name + "/" + repoName + "/branches")
   req.send()
 }
 
-function displayBranches() {
+function displayBranches(event, data) {
   const branches = JSON.parse(this.responseText)
-  const branchesList = `<ul>${branches.map(branch => '<li>' + branch.name + '</li>').join('')}</ul>`
-  document.getElementById("details").innerHTML = branchesList
+  const branchList = `<ul>${branches.map(b => '<li>' + b.name + '</li>')}</ul>`
+  document.getElementById("details").innerHTML = branchList
 }
