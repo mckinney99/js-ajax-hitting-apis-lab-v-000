@@ -1,9 +1,8 @@
 function getRepositories() {
-  const name = document.getElementById("username").value
+  const username = document.getElementById("username").value
   const req = new XMLHttpRequest()
-  const uri = "https://api.github.com" + "/users/" + name + "/repos"
- req.addEventListener("load", displayRepositories)
- req.open("GET", uri)
+  req.addEventListener("load", displayRepositories)
+  req.open("GET", "https://api.github.com/users/" + username +"/repos")
   req.send()
 }
 
