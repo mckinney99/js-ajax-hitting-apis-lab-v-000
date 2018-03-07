@@ -7,10 +7,11 @@ function getRepositories() {
 }
 
 function displayRepositories(event, data) {
-  let repos = JSON.parse(this.responseText)
-  const reposList = `<ul>${repos.map(r =>
-    '<li>' + r.name + ' - ' + r.html_url + ' - <a href="#" data-repo="'+ r.name +'" onclick="getCommits(this)">Get Commits</a></li>').join('')}</ul>`
-  document.getElementById("repositories").innerHTML = reposList
+  var repos = JSON.parse(this.responseText);
+  const repoList = `<ul>${repos.map(r =>
+    '<li><h3><a href="' + r.html_url + '">' + r.name + '</a></h3>' +'<a href="#" data-repository="' + r.name + '" data-username="' + r.owner.login + '"onclick="getCommits(this)">Get Commits</a><br>' +
+    '<a href="#" data-repository="' + r.name + '" data-username="' + r.owner.login + '"onclick="getBranches(this)">Get Branches</a><br></li>').join("")}<ul>`;
+  document.getElementById('repositories').innerHTML = repoList;
 }
 
 function getCommits(el) {
